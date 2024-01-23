@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	{% load static %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+    <script src="{% static 'js/Chart.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/dashbaord.css' %}" />
+    <title>NC-kingdom of saudi Arabia</title>
+</head>
+<body>
+   <div id="wrapper" class="animate">
+        <nav class="navbar header-top fixed-top navbar-expand-lg nav-dark">
+            <img src="{% static 'images/Dashbaord.svg' %}" alt="Dashboard Logo" />
+            <label class="navbar-txt-brand">National Coverage - Kingdom of Saudi Arabia</label>
+        </nav>
+   </div>
+{% block content %}{% endblock %}
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">NC% Progress</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+                                    <canvas id="Progress" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">NC Batch Wise % Progress</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+								
+                                   <canvas id="BatchWise" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header" >
+                                <h3 class="card-title">NC Planned Progress Path</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+                                   <canvas id="PlannedProgress" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">NC Task Wise % Progress</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+                                    <canvas id="TaskWise" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<script>
+const shortNames = {{ data.short_name|safe }};
+const overallProgress = {{ data.actual_overall_progress|safe }};
+
+new Chart("TaskWise", {
+  type: 'bar',
+  data: {
+    labels: shortNames,
+    datasets: [{
+      backgroundColor: ["#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384", "#ff6384"],
+      data: overallProgress
+    }]
+  },
+
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: { display: false },
+    scales: {
+      xAxes: [{ display: true }],
+      yAxes: [{
+        ticks: { min: 0, max: 100, stepSize: 20 },
+        scaleLabel: {
+          display: true,
+          labelString: '% Progress'
+        }
+      }],
+    }
+  }
+});
+</script>
+
+<script>
+const batchNames = {{ data.actual_batch_names|safe }};
+const batchValues = {{ data.actual_batch_values|safe }};
+
+new Chart("BatchWise", {
+  type: 'bar',
+  data: {
+    labels: batchNames,
+    datasets: [{
+      backgroundColor: ["orange", "orange", "orange", "orange", "orange", "orange", "orange", "orange", "orange", "orange"],
+      data: batchValues
+    }]
+  },
+
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: { display: false },
+    scales: {
+      xAxes: [{
+        display: true,
+      }],
+      yAxes: [{
+        ticks: { min: 0, max: 100, stepSize: 20 },
+        scaleLabel: {
+          display: true,
+          labelString: '% Progress'
+        }
+      }],
+    }
+  }
+});
+</script>
+
+<script>
+const months = {{ data.Months|safe }};
+const progressData = {{ data.progress|safe }};
+
+new Chart("PlannedProgress", {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [{
+      label: "%Cumulative Plan",
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(54, 162, 235, 0.5)",
+      borderColor: "rgba(0,0,255)",
+      pointStyle: 'circle',
+      pointRadius: 5,
+      pointHoverRadius: 10,
+      data: progressData
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: { display: true },
+    scales: {
+      xAxes: [{
+        display: true,
+        scaleLabel: {
+          display: false,
+          labelString: 'Month'
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 100,
+          stepSize: 20
+        },
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString: '% Progress'
+        }
+      }],
+    }
+  }
+});
+</script>
+<script>
+const xValues = [ "Completed", "Balance", ];
+const yValues = [{{data.comp|safe}}, {{data.balance|safe}},];
+const barColors = [
+  "#4BC0C0",
+  "#36A2EB",
+
+];
+
+new Chart("Progress", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+  responsive: true,
+	maintainAspectRatio: false,
+    title: {
+      display: true,
+      text: ""
+    }
+  }
+});
+</script>
+{% endblock %}
